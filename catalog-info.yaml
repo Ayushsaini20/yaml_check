@@ -5,7 +5,8 @@ metadata:
     description: A Python Library
     annotations:
         backstage.io/techdocs-ref: dir:.
-        github.com/project-slug: pep8speaks-org/pep8speaks
+        github.com/project-slug: Ayushsaini20/new_migration
+
     tags:
         - python
     links:

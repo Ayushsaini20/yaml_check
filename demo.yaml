@@ -4,7 +4,7 @@ metadata:
   name: my-service
   description: A sample service in Backstage
   annotations:
-    github.com/project-slug: my-org/my-service
+    github.com/project-slug: Ayushsaini20/new_migration
 spec:
   type: service
   lifecycle: production

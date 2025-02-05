@@ -5,7 +5,7 @@ metadata:
   description: Retrieve artist details
   annotations:
     backstage.io/techdocs-ref: dir.
-    github.com/project-slug: 'Ayushsaini20/new_migration'
+    github.com/project-slug: Ayushsaini20/new_migration
 spec:
   type: service
   lifecycle: production

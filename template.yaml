@@ -1,0 +1,44 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: pull-code
+  title: Pull Code from Repository
+  description: Fetch code from Git repository and checkout latest branch or tag
+spec:
+  owner: devops-team
+  type: service
+
+  parameters:
+    - title: Repository Details
+      required:
+        - repoUrl
+        - branch
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: "Enter the Git repository URL (GitHub, GitLab, Bitbucket, Azure Repos)"
+        branch:
+          title: Branch or Tag
+          type: string
+          description: "Specify the branch or tag to checkout (e.g., main, develop, v1.0.0)"
+          default: "main"
+
+  steps:
+    - id: fetch-repo
+      name: Fetch Repository Code
+      action: fetch:plain
+      input:
+        url: ${{ parameters.repoUrl }}
+        branch: ${{ parameters.branch }}
+
+    - id: verify-code
+      name: Verify Latest Commit
+      action: shell:script
+      input:
+        script: git log -1 --oneline
+
+  output:
+    links:
+      - title: View Repository
+        url: ${{ parameters.repoUrl }}

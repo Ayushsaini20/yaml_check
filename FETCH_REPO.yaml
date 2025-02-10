@@ -1,0 +1,44 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: fetch-github-repo
+  title: Fetch GitHub Repository
+  description: Fetches a repository from GitHub and clones it into Backstage.
+spec:
+  owner: devops-team
+  type: service
+
+  parameters:
+    - title: Repository Details
+      required:
+        - repoUrl
+        - branch
+      properties:
+        repoUrl:
+          title: GitHub Repository URL
+          type: string
+          description: "Enter the repository URL (e.g., https://github.com/example/repo.git)"
+        branch:
+          title: Branch
+          type: string
+          description: "Enter the branch to checkout (default: main)"
+          default: "main"
+
+  steps:
+    - id: fetch-repo
+      name: Fetch Repository
+      action: fetch:plain
+      input:
+        url: ${{ parameters.repoUrl }}
+        branch: ${{ parameters.branch }}
+
+    - id: log-files
+      name: Log Repository Files
+      action: debug:log
+      input:
+        message: "Repository fetched successfully. Files: ${{ steps.fetch-repo.output.files }}"
+
+  output:
+    text:
+      - title: "Repository Fetched"
+        content: "The repository ${{ parameters.repoUrl }} has been successfully fetched."

@@ -51,8 +51,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: update-github-repo
-  title: Update GitHub Repository
+  name: github-repo
+  title: GitHub Repository
   description: Fetch a repository, make changes, and push them back to GitHub.
 spec:
   owner: devops-team
@@ -82,14 +82,20 @@ spec:
         url: ${{ parameters.repoUrl }}
         branch: ${{ parameters.branch }}
 
-    - id: list-files
-      name: List Repository Files
-      action: shell:script
+    - id: log-files
+      name: Log Repository Files
+      action: debug:log
       input:
-        script: |
-          echo "Listing files in the repository:"
-          ls -R
-        workingDirectory: ${{ steps.fetch-repo.output.targetPath }}
+        message: "Repository fetched successfully. Files: ${{ steps['fetch-repo'].output.files }}"
+
+    # - id: list-files
+    #   name: List Repository Files
+    #   action: shell:script
+    #   input:
+    #     script: |
+    #       echo "Listing files in the repository:"
+    #       ls -R
+    #     workingDirectory: ${{ steps.fetch-repo.output.targetPath }}
 
     - id: modify-file
       name: Modify a File

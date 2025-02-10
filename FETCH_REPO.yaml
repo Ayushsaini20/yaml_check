@@ -1,9 +1,59 @@
+# apiVersion: scaffolder.backstage.io/v1beta3
+# kind: Template
+# metadata:
+#   name: fetch-github-repo
+#   title: Fetch GitHub Repository
+#   description: Fetches a repository from GitHub and clones it into Backstage.
+# spec:
+#   owner: devops-team
+#   type: service
+
+#   parameters:
+#     - title: Repository Details
+#       required:
+#         - repoUrl
+#         - branch
+#       properties:
+#         repoUrl:
+#           title: GitHub Repository URL
+#           type: string
+#           description: "Enter the repository URL (e.g., https://github.com/example/repo.git)"
+#         branch:
+#           title: Branch
+#           type: string
+#           description: "Enter the branch to checkout (default: main)"
+#           default: "main"
+
+#   steps:
+#     - id: fetch-repo
+#       name: Fetch Repository
+#       action: fetch:plain
+#       input:
+#         url: ${{ parameters.repoUrl }}
+#         branch: ${{ parameters.branch }}
+
+#     - id: log-files
+#       name: Log Repository Files
+#       action: debug:log
+#       input:
+#         message: "Repository fetched successfully. Files: ${{ steps.fetch-repo.output.files }}"
+
+#   output:
+
+
+
+#     text:
+#       - title: "Repository Fetched"
+#         content: "The repository ${{ parameters.repoUrl }} has been successfully fetched."
+
+
+
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: fetch-github-repo
-  title: Fetch GitHub Repository
-  description: Fetches a repository from GitHub and clones it into Backstage.
+  name: update-github-repo
+  title: Update GitHub Repository
+  description: Fetch a repository, make changes, and push them back to GitHub.
 spec:
   owner: devops-team
   type: service
@@ -15,13 +65,13 @@ spec:
         - branch
       properties:
         repoUrl:
-          title: GitHub Repository URL
+          title: Repository URL
           type: string
-          description: "Enter the repository URL (e.g., https://github.com/example/repo.git)"
+          description: "Enter the GitHub repository URL (e.g., https://github.com/example/repo.git)"
         branch:
           title: Branch
           type: string
-          description: "Enter the branch to checkout (default: main)"
+          description: "Enter the branch to checkout (e.g., main)"
           default: "main"
 
   steps:
@@ -32,13 +82,29 @@ spec:
         url: ${{ parameters.repoUrl }}
         branch: ${{ parameters.branch }}
 
-    - id: log-files
-      name: Log Repository Files
-      action: debug:log
+    - id: list-files
+      name: List Repository Files
+      action: shell:script
       input:
-        message: "Repository fetched successfully. Files: ${{ steps.fetch-repo.output.files }}"
+        script: |
+          echo "Listing files in the repository:"
+          ls -R
+        workingDirectory: ${{ steps.fetch-repo.output.targetPath }}
 
-  output:
-    text:
-      - title: "Repository Fetched"
-        content: "The repository ${{ parameters.repoUrl }} has been successfully fetched."
+    - id: modify-file
+      name: Modify a File
+      action: fs:write
+      input:
+        path: ${{ steps.fetch-repo.output.targetPath }}/README.md
+        content: |
+          # Updated by Backstage
+          This file was modified automatically using Backstage.
+
+    - id: push-changes
+      name: Push Changes to GitHub
+      action: publish:github
+      input:
+        allowedHosts: ["github.com"]
+        description: "Updated README.md via Backstage"
+        repoUrl: ${{ parameters.repoUrl }}
+        branchName: ${{ parameters.branch }}

@@ -1,0 +1,67 @@
+name: Build and Deploy to JFrog
+on:
+  workflow_dispatch:
+    inputs:
+      repo_url:
+        description: 'GitHub Repository URL'
+        required: true
+      jfrog_url:
+        description: 'JFrog Artifactory URL'
+        required: true
+      jfrog_user:
+        description: 'JFrog Username'
+        required: true
+      jfrog_password:
+        description: 'JFrog Password'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Target Repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.repo_url }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Unit Tests
+        run: npm test
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact
+          path: dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifact
+          path: dist/
+
+      - name: Configure JFrog CLI
+        run: |
+          curl -fL https://getcli.jfrog.io | sh
+          ./jfrog config add my-jfrog \
+            --artifactory-url ${{ github.event.inputs.jfrog_url }} \
+            --user ${{ github.event.inputs.jfrog_user }} \
+            --password ${{ github.event.inputs.jfrog_password }}
+
+      - name: Push Artifact to JFrog
+        run: ./jfrog rt u "dist/*" "my-repository/npm/"

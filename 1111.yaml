@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: todays fetch
-  title: todays fetch
+  name: todays-fetch
+  title: todays-fetch
   description: Pulls code from Git repositories (GitHub, GitLab, Bitbucket, Azure Repos) and displays content.
 spec:
   owner: devops-person

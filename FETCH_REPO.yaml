@@ -51,8 +51,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: github-repo
-  title: GitHub Repository
+  name: Github_write_per
+  title: Github_write_per
   description: Fetch a repository, make changes, and push them back to GitHub.
 spec:
   owner: devops-team

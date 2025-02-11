@@ -3,16 +3,10 @@ on:
   workflow_dispatch:
     inputs:
       repo_url:
-        description: 'GitHub Repository URL'
+        description: 'GitHub Repository (owner/repo-name)'
         required: true
       jfrog_url:
         description: 'JFrog Artifactory URL'
-        required: true
-      jfrog_user:
-        description: 'JFrog Username'
-        required: true
-      jfrog_password:
-        description: 'JFrog Password'
         required: true
 
 jobs:
@@ -23,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.event.inputs.repo_url }}
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -60,8 +54,8 @@ jobs:
           curl -fL https://getcli.jfrog.io | sh
           ./jfrog config add my-jfrog \
             --artifactory-url ${{ github.event.inputs.jfrog_url }} \
-            --user ${{ github.event.inputs.jfrog_user }} \
-            --password ${{ github.event.inputs.jfrog_password }}
+            --user ${{ secrets.JFROG_USER }} \
+            --password ${{ secrets.JFROG_PASSWORD }}
 
       - name: Push Artifact to JFrog
-        run: ./jfrog rt u "dist/*" "my-repository/npm/"
+        run: ./jfrog rt u "dist/*" "artifacts-generic-local/"

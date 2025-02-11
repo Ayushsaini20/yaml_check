@@ -1,16 +1,42 @@
-apiVersion: backstage.io/v1alpha1
-kind: Component
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
 metadata:
-  name: build-check
-  description: A repository to build and deploy applications using GitHub Actions and JFrog.
-  annotations:
-    github.com/project-slug: Ayushsaini20/yaml_check
-    github.com/workflows: build.yml
-    jenkins.io/job-full-name: yaml_check/build  # Optional if you use Jenkins
-  tags:
-    - github-actions
-    - jfrog
+  name: centralized-workflow
+  title: Centralized Workflow Trigger
+  description: Triggers a centralized GitHub Actions workflow for building and deploying to JFrog.
 spec:
+  owner: backstage-team
   type: service
-  lifecycle: production
-  owner: ayushsaini20
+
+  parameters:
+    - title: Repository Information
+      required:
+        - repo_url
+        - jfrog_url
+      properties:
+        repo_url:
+          type: string
+          title: Repository URL
+          description: GitHub repository in the format `owner/repo-name`
+        jfrog_url:
+          type: string
+          title: JFrog Artifactory URL
+          description: URL of the JFrog Artifactory instance
+
+  steps:
+    - id: trigger-workflow
+      name: Trigger Centralized Workflow
+      action: github:actions:trigger-workflow
+      input:
+        owner: your-org # Owner of the central workflow repository
+        repo: central-workflows # Central workflow repository
+        workflow_id: build-and-deploy.yml # Workflow file name
+        ref: main # Branch where the workflow is stored
+        inputs:
+          repo_url: ${{ parameters.repo_url }}
+          jfrog_url: ${{ parameters.jfrog_url }}
+
+  output:
+    links:
+      - title: View Workflow Run
+        url: https://github.com/your-org/central-workflows/actions

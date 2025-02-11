@@ -1,0 +1,56 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: 11111
+  title: 11111
+  description: Pulls code from Git repositories (GitHub, GitLab, Bitbucket, Azure Repos) and displays content.
+spec:
+  owner: 11111
+  type: service
+
+  parameters:
+    - title: Repository Information
+      required:
+        - repoUrl
+        - branchOrTag
+      properties:
+        repoUrl:
+          type: string
+          title: Repository URL
+          description: URL of the Git repository (GitHub, GitLab, Bitbucket, Azure Repos)
+        branchOrTag:
+          type: string
+          title: Branch or Tag
+          description: The branch or tag to checkout (e.g., `main`, `develop`, `v1.0.0`)
+
+  steps:
+    - id: fetch-repo
+      name: Fetch Repository
+      action: fetch:plain
+      input:
+        url: ${{ parameters.repoUrl }}
+        branch: ${{ parameters.branchOrTag }}
+        targetPath: ./fetched-repo  # Store the fetched repo in this directory
+
+    - id: show-content
+      name: Show README File
+      action: read:file
+      input:
+        path: ./fetched-repo/README.md  # Read the README file if it exists
+
+    - id: zip-repo
+      name: Zip the Repository
+      action: fs:archive
+      input:
+        path: ./fetched-repo  # Archive the fetched repository
+        outputPath: ./fetched-repo.zip
+        format: zip
+
+  output:
+    text:
+      repoContent: ${{ steps.show-content.output }}  # Display README content in UI
+    links:
+      - title: Open Repository in Git Provider
+        url: ${{ parameters.repoUrl }}
+      - title: Download Repository ZIP
+        url: ./fetched-repo.zip  # Provides a downloadable ZIP file

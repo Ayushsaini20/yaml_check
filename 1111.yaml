@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: todays-fetch
-  title: todays-fetch
+  title: Today's Fetch
   description: Pulls code from Git repositories (GitHub, GitLab, Bitbucket, Azure Repos) and displays content.
 spec:
   owner: devops-person
@@ -48,7 +48,8 @@ spec:
 
   output:
     text:
-      repoContent: ${{ steps.show-content.output }}  # Display README content in UI
+      - title: "Repository Content"
+        content: ${{ steps.show-content.output }}  # ✅ Now in an array format
     links:
       - title: Open Repository in Git Provider
         url: ${{ parameters.repoUrl }}

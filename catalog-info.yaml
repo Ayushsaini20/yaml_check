@@ -32,20 +32,20 @@ spec:
 
 
 ---
-apiVersion: backstage.io/v1alpha1
-kind: Component
-metadata:
-  name: yaml-check
-  description: A repository to build and deploy applications using GitHub Actions and JFrog.
-  annotations:
-    github.com/project-slug: Ayushsaini20/yaml_check
-    github.com/workflows: build.yml
-    jenkins.io/job-full-name: yaml_check/build  # Optional if you use Jenkins
-  tags:
-    - github-actions
-    - jfrog
-spec:
-  type: service
-  lifecycle: production
-  owner: ayushsaini20
+# apiVersion: backstage.io/v1alpha1
+# kind: Component
+# metadata:
+#   name: yaml-check
+#   description: A repository to build and deploy applications using GitHub Actions and JFrog.
+#   annotations:
+#     github.com/project-slug: Ayushsaini20/yaml_check
+#     github.com/workflows: build.yml
+#     jenkins.io/job-full-name: yaml_check/build  # Optional if you use Jenkins
+#   tags:
+#     - github-actions
+#     - jfrog
+# spec:
+#   type: service
+#   lifecycle: production
+#   owner: ayushsaini20
 

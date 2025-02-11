@@ -34,9 +34,10 @@ spec:
 
     - id: show-content
       name: Show README File
-      action: read:file
+      action: fs:readFile  # ✅ Correct action for reading files
       input:
-        path: ./fetched-repo/README.md  # Read the README file if it exists
+        path: ./fetched-repo/README.md
+
 
     - id: zip-repo
       name: Zip the Repository

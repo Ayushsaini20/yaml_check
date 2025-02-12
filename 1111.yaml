@@ -34,7 +34,7 @@ spec:
 
     - id: list-files
       name: List Repository Files
-      action: fs:list
+      action: fs:walk
       input:
         path: ./fetched-repo
 

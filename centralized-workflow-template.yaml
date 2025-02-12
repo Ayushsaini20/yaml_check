@@ -1,3 +1,47 @@
+# apiVersion: scaffolder.backstage.io/v1beta3
+# kind: Template
+# metadata:
+#   name: centralized-workflow
+#   title: Centralized Workflow Trigger
+#   description: Triggers a centralized GitHub Actions workflow for building and deploying to JFrog.
+# spec:
+#   owner: backstage-team
+#   type: service
+
+#   parameters:
+#     - title: Repository Information
+#       required:
+#         - repo_url
+#         - jfrog_url
+#       properties:
+#         repo_url:
+#           type: string
+#           title: Repository URL
+#           description: GitHub repository in the format `owner/repo-name`
+#         jfrog_url:
+#           type: string
+#           title: JFrog Artifactory URL
+#           description: URL of the JFrog Artifactory instance
+
+#   steps:
+#     - id: trigger-workflow
+#       name: Trigger Centralized Workflow
+#       action: github:actions:trigger-workflow
+#       input:
+#         owner: your-org # Owner of the central workflow repository
+#         repo: central-workflows # Central workflow repository
+#         workflow_id: build-and-deploy.yml # Workflow file name
+#         ref: main # Branch where the workflow is stored
+#         inputs:
+#           repo_url: ${{ parameters.repo_url }}
+#           jfrog_url: ${{ parameters.jfrog_url }}
+
+#   output:
+#     links:
+#       - title: View Workflow Run
+#         url: https://github.com/your-org/central-workflows/actions
+
+
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
@@ -26,13 +70,12 @@ spec:
   steps:
     - id: trigger-workflow
       name: Trigger Centralized Workflow
-      action: github:actions:trigger-workflow
+      action: github:actions:dispatch
       input:
-        owner: your-org # Owner of the central workflow repository
-        repo: central-workflows # Central workflow repository
-        workflow_id: build-and-deploy.yml # Workflow file name
-        ref: main # Branch where the workflow is stored
-        inputs:
+        repoUrl: ${{ parameters.repo_url }}
+        workflowId: build-and-deploy.yml
+        branchOrTagName: main
+        workflowInputs:
           repo_url: ${{ parameters.repo_url }}
           jfrog_url: ${{ parameters.jfrog_url }}
 

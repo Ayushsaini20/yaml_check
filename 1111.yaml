@@ -32,12 +32,17 @@ spec:
         branch: ${{ parameters.branchOrTag }}
         targetPath: ./fetched-repo  # Store the fetched repo in this directory
 
+    - id: list-files
+      name: List Repository Files
+      action: fs:list
+      input:
+        path: ./fetched-repo
+
     - id: show-content
       name: Show README File
-      action: fs:readFile  # ✅ Correct action for reading files
+      action: fs:readFile
       input:
         path: ./fetched-repo/README.md
-
 
     - id: zip-repo
       name: Zip the Repository
@@ -50,9 +55,11 @@ spec:
   output:
     text:
       - title: "Repository Content"
-        content: ${{ steps.show-content.output }}  # ✅ Now in an array format
+        content: ${{ steps.show-content.output }}
+      - title: "Fetched Repository Files"
+        content: ${{ steps.list-files.output }}
     links:
       - title: Open Repository in Git Provider
         url: ${{ parameters.repoUrl }}
       - title: Download Repository ZIP
-        url: ./fetched-repo.zip  # Provides a downloadable ZIP file
+        url: ./fetched-repo.zip

@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ github.event.inputs.repo_url }}
-          token: ${{ secrets.GH_TOKEN }}
+          token: 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
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

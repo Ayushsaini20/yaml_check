@@ -84,7 +84,7 @@ spec:
     name: Trigger Centralized Workflow
     action: github:actions:dispatch
     input:
-      repoUrl: github.com?owner=${{ parameters.repo_url.split('/')[0] }}&repo=${{ parameters.repo_url.split('/')[1] }}
+      repoUrl: github.com/${{ parameters.repo_url }}
       workflowId: build-and-deploy.yml
       branchOrTagName: main
       workflowInputs:

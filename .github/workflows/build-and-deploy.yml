@@ -1,3 +1,74 @@
+# name: Build and Deploy to JFrog
+
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       repo_url:
+#         description: 'GitHub Repository (owner/repo-name)'
+#         required: true
+#       jfrog_url:
+#         description: 'JFrog Artifactory URL'
+#         required: true
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout Target Repo
+#         uses: actions/checkout@v4
+#         with:
+#           repository: ${{ github.event.inputs.repo_url }}
+#           token: ${{ secrets.GH_TOKEN }}
+#           # token: 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
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 18
+#           cache: 'npm'
+
+#       - name: Install Dependencies
+#         run: npm install
+
+#       - name: Run Unit Tests
+#         run: npm test
+
+#       - name: Build Application
+#         run: npm run build
+
+#       - name: Upload Build Artifact
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: build-artifact
+#           path: dist/
+#           retention-days: 1
+
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Download Build Artifact
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: build-artifact
+#           path: dist/
+
+#       - name: Configure JFrog CLI
+#         run: |
+#           curl -fL https://getcli.jfrog.io | sh
+#           ./jfrog config add my-jfrog \
+#             --artifactory-url ${{ github.event.inputs.jfrog_url }} \
+#             --user ${{ secrets.JFROG_USER }} \
+#             --password ${{ secrets.JFROG_PASSWORD }} \
+#             --interactive=false
+
+#       - name: Push Artifact to JFrog
+#         run: |
+#           ./jfrog rt u "dist/*" "artifacts-generic-local/" \
+#             --flat=true \
+#             --fail-no-op=true
+
+
 name: Build and Deploy to JFrog
 
 on:
@@ -5,9 +76,6 @@ on:
     inputs:
       repo_url:
         description: 'GitHub Repository (owner/repo-name)'
-        required: true
-      jfrog_url:
-        description: 'JFrog Artifactory URL'
         required: true
 
 jobs:
@@ -19,7 +87,6 @@ jobs:
         with:
           repository: ${{ github.event.inputs.repo_url }}
           token: ${{ secrets.GH_TOKEN }}
-          # token: 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
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -53,17 +120,11 @@ jobs:
           name: build-artifact
           path: dist/
 
-      - name: Configure JFrog CLI
+      - name: Upload Artifact to JFrog via CURL (Hardcoded)
         run: |
-          curl -fL https://getcli.jfrog.io | sh
-          ./jfrog config add my-jfrog \
-            --artifactory-url ${{ github.event.inputs.jfrog_url }} \
-            --user ${{ secrets.JFROG_USER }} \
-            --password ${{ secrets.JFROG_PASSWORD }} \
-            --interactive=false
+          echo "Uploading artifact to JFrog..."
+          FILE_PATH="dist/*"
+          TARGET_PATH="artifacts-generic-local/"
 
-      - name: Push Artifact to JFrog
-        run: |
-          ./jfrog rt u "dist/*" "artifacts-generic-local/" \
-            --flat=true \
-            --fail-no-op=true
+          curl -uayush.sai2025@gmail.com:cmVmdGtuOjAxOjE3NzA5ODAzNzM6MU15Rld2alhvckdPTGR4UU85WDF4eWxwUjdm \
+               -T $FILE_PATH "https://ayushsaini12341.jfrog.io/artifactory/$TARGET_PATH"

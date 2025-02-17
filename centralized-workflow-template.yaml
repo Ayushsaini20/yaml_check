@@ -140,14 +140,18 @@ spec:
   parameters:
     - title: Repository Information
       required:
-        - repo_url
+        - repo_owner
+        - repo_name
         - jfrog_url
       properties:
-        repo_url:
+        repo_owner:
           type: string
-          title: Repository URL
-          description: GitHub repository in the format owner/repo-name
-          pattern: '^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$'  # Ensures valid owner/repo format
+          title: Repository Owner
+          description: GitHub username or organization that owns the repository
+        repo_name:
+          type: string
+          title: Repository Name
+          description: Name of the repository
         jfrog_url:
           type: string
           title: JFrog Artifactory URL
@@ -158,17 +162,17 @@ spec:
       name: Trigger Centralized Workflow
       action: github:actions:dispatch
       input:
-        repoUrl: github.com/${{ parameters.repo_url }}  # ✅ Corrected format
+        repoUrl: github.com?repo=${{ parameters.repo_name }}&owner=${{ parameters.repo_owner }}  # ✅ Corrected format
         workflowId: build-and-deploy.yml
         branchOrTagName: main
         workflowInputs:
-          repo_url: ${{ parameters.repo_url }}
+          repo_url: github.com/${{ parameters.repo_owner }}/${{ parameters.repo_name }}
           jfrog_url: ${{ parameters.jfrog_url }}
 
   output:
     links:
       - title: View Workflow Run
-        url: https://github.com/your-org/central-workflows/actions
+        url: https://github.com/${{ parameters.repo_owner }}/${{ parameters.repo_name }}/actions
 
 
 

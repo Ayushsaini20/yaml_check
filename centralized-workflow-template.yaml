@@ -95,7 +95,7 @@ parameters:
   #       workflowInputs:
   #         repo_url: ${{ parameters.repo_url }}
   #         jfrog_url: ${{ parameters.jfrog_url }}
-  steps:
+steps:
   - id: trigger-workflow
     name: Trigger Centralized Workflow
     action: github:actions:dispatch

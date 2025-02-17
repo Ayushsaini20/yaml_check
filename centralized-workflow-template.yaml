@@ -52,20 +52,37 @@ spec:
   owner: backstage-team
   type: service
 
-  parameters:
-    - title: Repository Information
-      required:
-        - repo_url
-        - jfrog_url
-      properties:
-        repo_url:
-          type: string
-          title: Repository URL
-          description: GitHub repository in the format `owner/repo-name`
-        jfrog_url:
-          type: string
-          title: JFrog Artifactory URL
-          description: URL of the JFrog Artifactory instance
+  # parameters:
+  #   - title: Repository Information
+  #     required:
+  #       - repo_url
+  #       - jfrog_url
+  #     properties:
+  #       repo_url:
+  #         type: string
+  #         title: Repository URL
+  #         description: GitHub repository in the format `owner/repo-name`
+  #       jfrog_url:
+  #         type: string
+  #         title: JFrog Artifactory URL
+  #         description: URL of the JFrog Artifactory instance
+
+parameters:
+  - title: Repository Information
+    required:
+      - repo_url
+      - jfrog_url
+    properties:
+      repo_url:
+        type: string
+        title: Repository URL
+        description: GitHub repository in the format owner/repo-name
+        pattern: '^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$'  # Ensures valid owner/repo format
+      jfrog_url:
+        type: string
+        title: JFrog Artifactory URL
+        description: URL of the JFrog Artifactory instance
+
 
   steps:
     - id: trigger-workflow

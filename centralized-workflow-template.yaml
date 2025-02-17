@@ -121,7 +121,9 @@ steps:
   #       jfrog_url: ${{ parameters.jfrog_url }}
 
 
-  output:
-    links:
-      - title: View Workflow Run
-        url: https://github.com/your-org/central-workflows/actions
+output:
+  links:
+    - title: View Workflow Run
+      url: https://github.com/your-org/central-workflows/actions
+
+

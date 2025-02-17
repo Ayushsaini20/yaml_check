@@ -158,12 +158,13 @@ spec:
       name: Trigger Centralized Workflow
       action: github:actions:dispatch
       input:
-        repoUrl: github.com/${{ parameters.repo_url }}  # Ensures proper format
+        repoUrl: github.com?repo=${{ parameters.repo_url }}  # Correct format
         workflowId: build-and-deploy.yml
         branchOrTagName: main
         workflowInputs:
-          repo_url: github.com/${{ parameters.repo_url }}
+          repo_url: ${{ parameters.repo_url }}
           jfrog_url: ${{ parameters.jfrog_url }}
+
 
   output:
     links:

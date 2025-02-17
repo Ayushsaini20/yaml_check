@@ -1,0 +1,175 @@
+# apiVersion: scaffolder.backstage.io/v1beta3
+# kind: Template
+# metadata:
+#   name: centralized-workflow
+#   title: Centralized Workflow Trigger
+#   description: Triggers a centralized GitHub Actions workflow for building and deploying to JFrog.
+# spec:
+#   owner: backstage-team
+#   type: service
+
+#   parameters:
+#     - title: Repository Information
+#       required:
+#         - repo_url
+#         - jfrog_url
+#       properties:
+#         repo_url:
+#           type: string
+#           title: Repository URL
+#           description: GitHub repository in the format `owner/repo-name`
+#         jfrog_url:
+#           type: string
+#           title: JFrog Artifactory URL
+#           description: URL of the JFrog Artifactory instance
+
+#   steps:
+#     - id: trigger-workflow
+#       name: Trigger Centralized Workflow
+#       action: github:actions:trigger-workflow
+#       input:
+#         owner: your-org # Owner of the central workflow repository
+#         repo: central-workflows # Central workflow repository
+#         workflow_id: build-and-deploy.yml # Workflow file name
+#         ref: main # Branch where the workflow is stored
+#         inputs:
+#           repo_url: ${{ parameters.repo_url }}
+#           jfrog_url: ${{ parameters.jfrog_url }}
+
+#   output:
+#     links:
+#       - title: View Workflow Run
+#         url: https://github.com/your-org/central-workflows/actions
+
+
+# apiVersion: scaffolder.backstage.io/v1beta3
+# kind: Template
+# metadata:
+#   name: centralized-workflow
+#   title: Centralized Workflow Trigger
+#   description: Triggers a centralized GitHub Actions workflow for building and deploying to JFrog.
+# spec:
+#   owner: backstage-team
+#   type: service
+
+#   # parameters:
+#   #   - title: Repository Information
+#   #     required:
+#   #       - repo_url
+#   #       - jfrog_url
+#   #     properties:
+#   #       repo_url:
+#   #         type: string
+#   #         title: Repository URL
+#   #         description: GitHub repository in the format `owner/repo-name`
+#   #       jfrog_url:
+#   #         type: string
+#   #         title: JFrog Artifactory URL
+#   #         description: URL of the JFrog Artifactory instance
+
+# parameters:
+#   - title: Repository Information
+#     required:
+#       - repo_url
+#       - jfrog_url
+#     properties:
+#       repo_url:
+#         type: string
+#         title: Repository URL
+#         description: GitHub repository in the format owner/repo-name
+#         pattern: '^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$'  # Ensures valid owner/repo format
+#       jfrog_url:
+#         type: string
+#         title: JFrog Artifactory URL
+#         description: URL of the JFrog Artifactory instance
+
+
+#   # steps:
+#   #   - id: trigger-workflow
+#   #     name: Trigger Centralized Workflow
+#   #     action: github:actions:dispatch
+#   #     input:
+#   #       repoUrl: ${{ parameters.repo_url }}
+#   #       workflowId: build-and-deploy.yml
+#   #       branchOrTagName: main
+#   #       workflowInputs:
+#   #         repo_url: ${{ parameters.repo_url }}
+#   #         jfrog_url: ${{ parameters.jfrog_url }}
+# steps:
+#   - id: trigger-workflow
+#     name: Trigger Centralized Workflow
+#     action: github:actions:dispatch
+#     input:
+#       repoUrl: github.com/${{ parameters.repo_url }}  # Ensures proper format
+#       workflowId: build-and-deploy.yml
+#       branchOrTagName: main
+#       workflowInputs:
+#         repo_url: github.com/${{ parameters.repo_url }}
+#         jfrog_url: ${{ parameters.jfrog_url }}
+
+
+#   # steps:
+#   # - id: trigger-workflow
+#   #   name: Trigger Centralized Workflow
+#   #   action: github:actions:dispatch
+#   #   input:
+#   #     repoUrl: github.com/Ayushsaini20/yaml_check
+#   #     workflowId: build-and-deploy.yml
+#   #     branchOrTagName: main
+#   #     workflowInputs:
+#   #       repo_url: ${{ parameters.repo_url }}
+#   #       jfrog_url: ${{ parameters.jfrog_url }}
+
+
+# output:
+#   links:
+#     - title: View Workflow Run
+#       url: https://github.com/your-org/central-workflows/actions
+
+
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: NewTemp
+  title: NewTemp
+  description: Triggers a centralized GitHub Actions workflow for building and deploying to JFrog.
+spec:
+  owner: backstage-team
+  type: service
+
+  parameters:
+    - title: Repository Information
+      required:
+        - repo_owner
+        - repo_name
+        - jfrog_url
+      properties:
+        repo_owner:
+          type: string
+          title: Repository Owner
+          description: GitHub username or organization that owns the repository
+        repo_name:
+          type: string
+          title: Repository Name
+          description: Name of the repository
+        jfrog_url:
+          type: string
+          title: JFrog Artifactory URL
+          description: URL of the JFrog Artifactory instance
+
+  steps:
+    - id: trigger-workflow
+      name: Trigger Centralized Workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: github.com?repo=${{ parameters.repo_name }}&owner=${{ parameters.repo_owner }}  # ✅ Corrected format
+        workflowId: build-and-deploy.yml
+        branchOrTagName: main
+        workflowInputs:
+          repo_url: github.com/${{ parameters.repo_owner }}/${{ parameters.repo_name }}
+          jfrog_url: ${{ parameters.jfrog_url }}
+
+  output:
+    links:
+      - title: View Workflow Run
+        url: https://github.com/${{ parameters.repo_owner }}/${{ parameters.repo_name }}/actions

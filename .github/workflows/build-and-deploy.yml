@@ -77,6 +77,9 @@ on:
       repo_url:
         description: 'GitHub Repository (owner/repo-name)'
         required: true
+      jfrog_url:
+        description: 'JFrog Artifactory URL'
+        required: true
 
 jobs:
   build:

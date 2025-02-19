@@ -62,4 +62,17 @@ spec:
 #   type: service
 #   lifecycle: production
 #   owner: ayushsaini20
+---
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: yaml-check
+  description: A test repository for Backstage integration
+  annotations:
+    github.com/project-slug: Ayushsaini20/yaml_check
+spec:
+  type: service
+  owner: default
+  lifecycle: experimental
 

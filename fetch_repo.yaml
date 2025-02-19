@@ -1,0 +1,43 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: github-repo-fetcher
+  title: Fetch GitHub Repository
+  description: Fetch and display a GitHub repository dynamically in Backstage
+spec:
+  owner: backstage-team
+  type: service
+
+  parameters:
+    - title: GitHub Repository Details
+      required:
+        - repo
+      properties:
+        repo:
+          type: string
+          title: GitHub Repo (owner/repo-name)
+          description: Enter GitHub repository in the format `owner/repo-name`
+          pattern: '^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$'
+
+  steps:
+    - id: register-repo
+      name: Register GitHub Repository in Backstage
+      action: catalog:register
+      input:
+        entity:
+          apiVersion: backstage.io/v1alpha1
+          kind: Component
+          metadata:
+            name: ${{ parameters.repo }}
+            description: Dynamically imported GitHub repository
+            annotations:
+              github.com/project-slug: ${{ parameters.repo }}
+          spec:
+            type: service
+            lifecycle: production
+            owner: ayushsaini
+
+  output:
+    links:
+      - title: View in Backstage Catalog
+        url: /catalog/default/component/${{ parameters.repo }}

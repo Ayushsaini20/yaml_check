@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: github-repo-fetcher
-  title: Fetch GitHub Repository
+  title: New Fetch GitHub Repository
   description: Fetch and display a GitHub repository dynamically in Backstage
 spec:
   owner: backstage-team

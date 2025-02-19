@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: fetch-git-repo
-  title: Fetch Git Repository
+  title: New Fetch Git Repository
   description: Clone a Git repository and use it in Backstage.
 
 spec:

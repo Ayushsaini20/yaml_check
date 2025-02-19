@@ -1,33 +1,39 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: github-repo-fetcher
-  title: New Fetch GitHub Repository
-  description: Fetch and display a GitHub repository dynamically in Backstage
+  name: fetch-git-repo
+  title: Fetch Git Repository
+  description: Clone a Git repository and use it in Backstage.
+
 spec:
   owner: backstage-team
   type: service
 
   parameters:
-    - title: GitHub Repository Details
+    - title: Git Repository Details
       required:
-        - repo
+        - repo_url
+        - branch
       properties:
-        repo:
+        repo_url:
           type: string
-          title: GitHub Repo (owner/repo-name)
-          description: Enter GitHub repository in the format `owner/repo-name`
-          pattern: '^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$'
+          title: Repository URL
+          description: Git repository URL (GitHub, GitLab, Bitbucket, Azure)
+        branch:
+          type: string
+          title: Branch/Tag
+          description: Specify branch or tag to checkout
 
   steps:
-    - id: register-repo
-      name: Register GitHub Repository in Backstage
-      action: catalog:register
+    - id: fetch-repository
+      name: Fetch Git Repository
+      action: fetch:plain
       input:
-        repoContentsUrl: https://github.com/${{ parameters.repo }}
-        catalogInfoPath: /catalog-info.yaml
+        url: ${{ parameters.repo_url }}
+        branch: ${{ parameters.branch }}
+        targetPath: ./repo-code  # Where the repo will be cloned
 
   output:
     links:
-      - title: View in Backstage Catalog
-        url: /catalog/default/component/${{ parameters.repo }}
+      - title: View Repository
+        url: ${{ parameters.repo_url }}

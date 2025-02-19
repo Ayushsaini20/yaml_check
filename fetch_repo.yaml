@@ -32,7 +32,7 @@ spec:
         method: GET
         headers:
           Authorization: "Bearer ${GITHUB_TOKEN}"
-      if: "{{ output.check-catalog-file.status_code != 200 }}"
+      if: "{{ output.check-catalog-file.status_code == 404 }}"  # If file is not found
 
     - id: create-catalog-file
       name: Create catalog-info.yaml
@@ -44,10 +44,10 @@ spec:
           Authorization: "Bearer ${GITHUB_TOKEN}"
         body:
           message: "Add catalog-info.yaml for Backstage registration"
-          content: "${{ base64Encode(catalog_info) }}"
+          content: "{{ base64Encode('apiVersion: backstage.io/v1alpha1\nkind: Component\nmetadata:\n  name: ${{ parameters.repo_name }}\n  description: Automatically generated catalog-info.yaml\nspec:\n  type: service\n  lifecycle: production\n  owner: backstage-team') }}"
           branch: main
-      if: "{{ output.check-catalog-file.status_code != 200 }}"
-    
+      if: "{{ output.check-catalog-file.status_code == 404 }}"
+
     - id: register-repo
       name: Register GitHub Repository
       action: catalog:register
@@ -58,4 +58,3 @@ spec:
     links:
       - title: View in Backstage
         url: /catalog/default/component/${{ parameters.repo_name }}
-

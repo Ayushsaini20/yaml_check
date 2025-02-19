@@ -32,6 +32,20 @@ spec:
 
 
 ---
+
+
+
+  apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: test_repo
+  annotations:
+    github.com/project-slug: Ayushsaini20/Test_repo
+    github.com/actions: Ayushsaini20/Test_repo
+spec:
+  type: service
+  lifecycle: production
+  owner: your-team
 # apiVersion: backstage.io/v1alpha1
 # kind: Component
 # metadata:

@@ -1,39 +1,61 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: fetch-git-repo
-  title: New Fetch Git Repository
-  description: Clone a Git repository and use it in Backstage.
-
+  name: fetch-github-repo
+  title: Register Any GitHub Repository
+  description: Dynamically fetch and register any GitHub repository in Backstage.
 spec:
   owner: backstage-team
   type: service
 
   parameters:
-    - title: Git Repository Details
+    - title: GitHub Repository Details
       required:
-        - repo_url
-        - branch
+        - repo_owner
+        - repo_name
       properties:
-        repo_url:
+        repo_owner:
           type: string
-          title: Repository URL
-          description: Git repository URL (GitHub, GitLab, Bitbucket, Azure)
-        branch:
+          title: Repository Owner
+          description: GitHub username or organization (e.g., Ayushsaini20).
+        repo_name:
           type: string
-          title: Branch/Tag
-          description: Specify branch or tag to checkout
+          title: Repository Name
+          description: The repository to fetch (e.g., yaml_check).
 
   steps:
-    - id: fetch-repository
-      name: Fetch Git Repository
+    - id: check-catalog-file
+      name: Check if catalog-info.yaml exists
       action: fetch:plain
       input:
-        url: ${{ parameters.repo_url }}
-        branch: ${{ parameters.branch }}
-        targetPath: ./repo-code  # Where the repo will be cloned
+        url: "https://api.github.com/repos/${{ parameters.repo_owner }}/${{ parameters.repo_name }}/contents/catalog-info.yaml"
+        method: GET
+        headers:
+          Authorization: "Bearer ${GITHUB_TOKEN}"
+      if: "{{ output.check-catalog-file.status_code != 200 }}"
+
+    - id: create-catalog-file
+      name: Create catalog-info.yaml
+      action: fetch:plain
+      input:
+        url: "https://api.github.com/repos/${{ parameters.repo_owner }}/${{ parameters.repo_name }}/contents/catalog-info.yaml"
+        method: PUT
+        headers:
+          Authorization: "Bearer ${GITHUB_TOKEN}"
+        body:
+          message: "Add catalog-info.yaml for Backstage registration"
+          content: "${{ base64Encode(catalog_info) }}"
+          branch: main
+      if: "{{ output.check-catalog-file.status_code != 200 }}"
+    
+    - id: register-repo
+      name: Register GitHub Repository
+      action: catalog:register
+      input:
+        catalogInfoUrl: "https://github.com/${{ parameters.repo_owner }}/${{ parameters.repo_name }}/blob/main/catalog-info.yaml"
 
   output:
     links:
-      - title: View Repository
-        url: ${{ parameters.repo_url }}
+      - title: View in Backstage
+        url: /catalog/default/component/${{ parameters.repo_name }}
+

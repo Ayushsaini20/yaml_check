@@ -24,18 +24,8 @@ spec:
       name: Register GitHub Repository in Backstage
       action: catalog:register
       input:
-        entity:
-          apiVersion: backstage.io/v1alpha1
-          kind: Component
-          metadata:
-            name: ${{ parameters.repo }}
-            description: Dynamically imported GitHub repository
-            annotations:
-              github.com/project-slug: ${{ parameters.repo }}
-          spec:
-            type: service
-            lifecycle: production
-            owner: ayushsaini
+        repoContentsUrl: https://github.com/${{ parameters.repo }}
+        catalogInfoPath: /catalog-info.yaml
 
   output:
     links:

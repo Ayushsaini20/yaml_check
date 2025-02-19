@@ -67,12 +67,12 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: yaml-check
-  description: A test repository for Backstage integration
+  name: ${{ parameters.repo_name }}
   annotations:
-    github.com/project-slug: Ayushsaini20/yaml_check
+    github.com/project-slug: ${{ parameters.repo_owner }}/${{ parameters.repo_name }}
+    backstage.io/techdocs-ref: dir:.
 spec:
   type: service
-  owner: default
-  lifecycle: experimental
+  lifecycle: production
+  owner: ${{ parameters.repo_owner }}
 

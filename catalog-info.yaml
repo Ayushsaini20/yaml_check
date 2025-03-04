@@ -76,3 +76,23 @@ spec:
   lifecycle: production
   owner: ${{ parameters.repo_owner }}
 
+---
+
+
+app:
+  title: Backstage
+  baseUrl: http://localhost:3000
+
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    port: 7007
+
+harbor:
+  baseUrl: https://demo.goharbor.io
+  username: Ayushsaini
+  password: CSWC++@sa2025
+
+proxy:
+  '/harbor':
+    target: http://localhost:7007/api/harbor

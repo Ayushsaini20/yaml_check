@@ -1,8 +1,8 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: my-scanning
-  description: scanning
+  name: my-service
+  description: My service
   annotations:
     snyk.io/org-id: a336b694-9258-45f9-b151-4a39f5f70e68  # Replace with your Snyk Organization ID
     snyk.io/project-ids: 9f8f1a11-393e-4013-a07b-ffa1b7d05dbd  # Replace with your Snyk Project ID

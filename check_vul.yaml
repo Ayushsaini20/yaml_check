@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: check-vulnerability
+  description: A service to check vulnerabilities using Snyk
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: Ayushsaini20/my-repo
+    backstage.io/kubernetes-id: my-service
+    snyk.io/org-id: a336b694-9258-45f9-b151-4a39f5f70e68  # Verify this
+    snyk.io/project-ids: 9f8f1a11-393e-4013-a07b-ffa1b7d05dbd  # Verify this
+spec:
+  type: service
+  lifecycle: production
+  owner: my-team

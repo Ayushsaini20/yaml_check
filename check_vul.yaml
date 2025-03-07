@@ -5,7 +5,7 @@ metadata:
   description: A service to check vulnerabilities using Snyk
   annotations:
     backstage.io/techdocs-ref: dir:.
-    github.com/project-slug: Ayushsaini20/dynamic_migration
+    github.com/project-slug: Ayushsaini20/100-Days-Of-Code
     backstage.io/kubernetes-id: my-service
     snyk.io/org-id: a336b694-9258-45f9-b151-4a39f5f70e68  # Correct Organization ID
     snyk.io/project-ids: 9f8f1a11-393e-4013-a07b-ffa1b7d05dbd  # Corrected Project ID

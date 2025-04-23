@@ -36,13 +36,14 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Notify file changes to webhook
-        uses: Ayushsaini20/file-change-notifier-action@v1
+        uses: Ayushsaini20/file-change-notifier-action@v1.1
         with:
           api_url: https://e9c7-49-43-168-3.ngrok-free.app/webhook
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
 

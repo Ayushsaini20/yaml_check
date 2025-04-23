@@ -1,4 +1,3 @@
-#fetch_repo.yaml
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:

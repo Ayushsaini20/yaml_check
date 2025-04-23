@@ -1,4 +1,26 @@
-# .github/workflows/file-change-notifier.yml
+# # .github/workflows/file-change-notifier.yml
+# name: File Change Notifier
+
+# on:
+#   push:
+#   pull_request:
+#     types:
+#       - closed
+
+# jobs:
+#   notify:
+#     runs-on: ubuntu-latest
+#     if: github.event_name == 'push' || github.event.pull_request.merged == true
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       - name: Notify file changes
+#         uses: Ayushsaini20/file-change-notifier-action@v1
+#         with:
+#           api_url: https://e9c7-49-43-168-3.ngrok-free.app/webhook
+
 name: File Change Notifier
 
 on:
@@ -16,7 +38,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Notify file changes
+      - name: Notify file changes to webhook
         uses: Ayushsaini20/file-change-notifier-action@v1
         with:
           api_url: https://e9c7-49-43-168-3.ngrok-free.app/webhook
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

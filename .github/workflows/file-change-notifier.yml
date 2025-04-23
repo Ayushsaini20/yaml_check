@@ -19,4 +19,4 @@ jobs:
       - name: Notify file changes
         uses: Ayushsaini20/file-change-notifier-action@v1
         with:
-          api_url: https://5136-49-43-168-3.ngrok-free.app/webhook
+          api_url: https://e9c7-49-43-168-3.ngrok-free.app/webhook

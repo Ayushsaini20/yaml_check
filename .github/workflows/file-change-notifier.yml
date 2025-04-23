@@ -1,0 +1,22 @@
+# .github/workflows/file-change-notifier.yml
+name: File Change Notifier
+
+on:
+  push:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.pull_request.merged == true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Notify file changes
+        uses: <your-username>/file-change-notifier-action@v1
+        with:
+          api_url: https://your-ngrok-url-or-server/webhook

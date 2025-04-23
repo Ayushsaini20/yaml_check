@@ -45,5 +45,5 @@ jobs:
         with:
           api_url: https://e9c7-49-43-168-3.ngrok-free.app/webhook
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 

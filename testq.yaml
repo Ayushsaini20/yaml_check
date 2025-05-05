@@ -1,0 +1,27 @@
+application:
+  name: MyApp
+  version: 1.0.0
+  description: A simple app to demonstrate YAML
+  active: true
+
+database:
+  host: localhost
+  port: 5432
+  username: admin
+  password: secret_password
+  retries: 3
+
+features:
+  - user_authentication
+  - data_sync
+  - email_notifications
+
+server:
+  environment: production
+  host: 0.0.0.0
+  port: 8080
+
+logging:
+  level: info
+  log_to_file: true
+  file_path: /var/log/myapp.log

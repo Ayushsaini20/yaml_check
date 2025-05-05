@@ -10,8 +10,8 @@ func main() {
     fmt.Scanln(&num)
 
     if num%2 == 0 {
-        fmt.Printf("%d is Even ✅\n", num)
+        fmt.Printf("%d Even \n", num)
     } else {
-        fmt.Printf("%d is Odd 🔢\n", num)
+        fmt.Printf("%d Odd \n", num)
     }
 }

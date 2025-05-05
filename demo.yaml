@@ -3,7 +3,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: my-service
-  description: A sample service in Backstage
+  description: A service in Backstage
   annotations:
     github.com/project-slug: Ayushsaini20/new_migration
 spec:

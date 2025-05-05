@@ -1,2 +1,1 @@
-name = input("What's your name? ")
-print(f"Hello, {name}! Welcome to the Python world 🐍")
+print(f"Hello! Welcome to the Python world 🐍")

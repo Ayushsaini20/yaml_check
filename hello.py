@@ -1,2 +1,2 @@
-name = input("What's your name? ")
+name = "World"
 print(f"Hello, {name}! Welcome to the Python world 🐍")

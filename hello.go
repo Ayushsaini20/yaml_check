@@ -1,3 +1,4 @@
+#gocode
 package main
 
 import "fmt"

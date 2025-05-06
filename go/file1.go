@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/google/go-github/v58/github"
-	"golang.org/x/oauth2"
 )
 
 func main() {

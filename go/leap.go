@@ -21,8 +21,8 @@ func main() {
 	}
  
 	if isLeapYear(year) {
-		fmt.Printf("%d is a Leap Year ✅\n", year)
+		fmt.Printf("%d is a Leap Year \n", year)
 	} else {
-		fmt.Printf("%d is NOT a Leap Year ❌\n", year)
+		fmt.Printf("%d is NOT a Leap Year \n", year)
 	}
 }

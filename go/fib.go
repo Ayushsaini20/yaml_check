@@ -27,3 +27,5 @@ func main() {
     } else {
         fmt.Printf("Fibonacci sequence with %d terms:\n", terms)
         fibonacci(terms)
+    }
+}

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-    
+    // ⚠️ Hardcoded token for testing only (do NOT commit in real projects)
     token := "ghp_yourHardcodedGitHubTokenHere"
 
     req, err := http.NewRequest("GET", "https://api.github.com/user", nil)
@@ -25,7 +25,13 @@ func main() {
         fmt.Println("Request failed:", err)
         return
     }
-    defer resp.Body.Close()
+
+    // Safely close the response body and handle any error
+    defer func() {
+        if cerr := resp.Body.Close(); cerr != nil {
+            fmt.Println("Error closing response body:", cerr)
+        }
+    }()
 
     if resp.StatusCode != http.StatusOK {
         fmt.Printf("GitHub API request failed: %s\n", resp.Status)
@@ -38,5 +44,5 @@ func main() {
         return
     }
 
-    fmt.Println(" Authenticated GitHub user:", data["login"])
+    fmt.Println("✅ Authenticated GitHub user:", data["login"])
 }

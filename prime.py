@@ -9,4 +9,4 @@ def is_prime(n):
 
 # Test the function
 num = 7
-print(f"{num} is prime? {is_prime(num)}"
+print(f"{num} is prime? {is_prime(num)}")
